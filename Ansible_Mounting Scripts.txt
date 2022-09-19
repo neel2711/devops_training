@@ -1,0 +1,15 @@
+vi mount.sh
+
+#Do not run this scripts unless you understand what is doing
+#Do not run this scripts more than once
+echo -e "o\nn\np\n1\n\n\nw" | sudo fdisk /dev/sdb
+sudo mkfs.ext4 -F /dev/sdb
+sudo mkdir /data1
+sudo sh -c "echo -e \"/dev/sdb /data1 ext4 defaults 00\" >> /etc/fstab"
+sudo mount -a
+
+
+
+
+
+/home/solr_configsnew/conf/solrconfig.xml

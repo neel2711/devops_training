@@ -1,0 +1,59 @@
+10.2.152.247 solrdev3.solixcorp.com solrdev3
+
+10.2.152.251 zk1.solixcorp.com zk1
+10.2.152.252 zk2.solixcorp.com zk2
+10.2.152.253 zk3.solixcorp.com zk3
+
+/opt/zookeeper-3.4.6/data
+
+#JAVA_HOME PATH SET
+export JAVA_HOME=/usr/lib/jvm/java8/jdk1.8.0_211
+export JRE_HOME=/usr/lib/jvm/java8/jdk1.8.0_211/jre
+export PATH=$PATH:$JAVA_HOME/bin
+
+#ZOOKEEPER_HOME PATH SET
+export ZOOKEEPER_HOME=/opt/zookeeper-3.4.6
+export PATH=$PATH:$ZOOKEEPER_HOME/bin
+
+server.1=zk1.solixcorp.com:2888:3888
+server.2=zk2.solixcorp.com:2888:3888
+server.3=zk3.solixcorp.com:2888:3888
+
+
+zk1.solixcorp.com:2181,zk2.solixcorp.com:2181,zk3.solixcorp.com:2181/solr
+
+<str name="zkHost">zk1.solixcorp.com:2181,zk2.solixcorp.com:2181,zk3.solixcorp.com:2181/solr</str>
+
+/test/solrdev/solr-7.4.0/bin/solr start -c -p 8983 -d /test/solrdev/solr-7.4.0/server/ -s /test/solrdev/solrd1/server/solr -t /test/solrdev/solrd1_dir -force
+
+
+/solr/solrn/solr-7.4.0/bin/solr start -c -p 8985 -d /solr/solrn/solr-7.4.0/server/ -s /solr/solrn/solr2/server/solr -t /solr/solrn/solr2_dir/ -force
+
+/root/test/solr-8.7.0/bin/solr start -c -p 8983 -d /root/test/solr-8.7.0/server/ -s /root/test/solrd1/server/solr -t /root/test/solrd1_dir -force
+
+
+/root/test/solr-8.7.0/server/logs/solr.log
+
+Start Command:-
+--------------------------------
+/root/test/solr-8.7.0/bin/solr start -c -p 8983 -d /root/test/solr-8.7.0/server/ -s /root/test/solr1/server/solr -t /root/test/solr1_dir -force
+
+/root/test/solr-8.7.0/bin/solr start -c -p 8984 -d /root/test/solr-8.7.0/server/ -s /root/test/solr2/server/solr -t /root/test/solr2_dir -force
+
+Upconfig Command:-
+------------------------------
+/root/test/solr-8.7.0/bin/solr zk -upconfig -n solr_configs -d /root/test/solr1/server/solr/configsets/solr_configs/ -z zk1.solixcorp.com:2181,zk2.solixcorp.com:2181,zk3.solixcorp.com:2181/solr
+
+/root/test/solr-8.7.0/bin/solr zk -upconfig -n solr_configs -d /root/test/solr2/server/solr/configsets/solr_configs/ -z zk1.solixcorp.com:2181,zk2.solixcorp.com:2181,zk3.solixcorp.com:2181/solr
+
+Collection creation:-
+---------------------------------
+
+curl -i --negotiate -u: 'http://solrdev3.solixcorp.com:8983/solr/admin/collections?action=CREATE&name=solrdev3&numShards=2&replicationFactor=2&maxShardsPerNode=2&collection.configName=solr_configs'
+
+Delete Collection:- curl -i --negotiate -u: 'http://solrdev3.solixcorp.com:8983/solr/admin/collections?action=DELETE&name=test'
+
+Get Collection Data:- curl -i --negotiate -u : "http://solrdev3.solixcorp.com:8983/solr/test/select?q=*&wt=json&indent=*"
+
+Collection LIST:- curl -i --negotiate -u: 'http://solrdev3.solixcorp.com:8983/solr/admin/collections?action=LIST&wt=json'
+

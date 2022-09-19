@@ -1,0 +1,11 @@
+btsawstech@gmail.com
+
+Oracle@123!
+
+==============================
+EC2 Encryption
+EC2 Migration
+VPN
+S3
+Autoscaling
+etc
